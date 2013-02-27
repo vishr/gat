@@ -3,7 +3,7 @@ Cacher
 
 An HTTP caching server
 
-[![Build Status](https://travis-ci.org/vishr/gat.png)](https://travis-ci.org/vishr/gat)
+[![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
 
 ## Features
 Coming soon...
