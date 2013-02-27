@@ -3,8 +3,6 @@ Cacher
 
 An HTTP caching server
 
-[![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
-
 ## Features
 Coming soon...
 
@@ -54,3 +52,6 @@ Coming soon...
 
 ### As a node module
 Coming soon...
+
+## Build
+[![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
