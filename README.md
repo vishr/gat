@@ -1,4 +1,4 @@
 Cacher
 ======
 
-An HTTP caching proxy server
+An HTTP caching server
