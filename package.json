@@ -1,0 +1,25 @@
+{
+  "name": "cacher",
+  "version": "0.0.1",
+  "description": "HTTP caching server",
+  "main": "cacher.js",
+  "bin": "bin/cacher",
+  "dependencies": {
+    "fs-extra": "~0.5.0",
+    "lodash": "1.x"
+  },
+  "devDependencies": {
+    "mocha": "1.x"
+  },
+  "scripts": {
+    "test": "mocha -t 60s -R spec",
+    "start": "node cacher.js"
+  },
+  "repository": "",
+  "keywords": ["http", "cache", "proxy"],
+  "engines": {
+    "node": "0.8.x"
+  },
+  "author": "Vishal Rana",
+  "license": "BSD"
+}

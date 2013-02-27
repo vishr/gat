@@ -1,0 +1,5 @@
+{
+  "port": "1947",
+  "pidFile": "cacher.pid",
+  "logFile": "cacher.log"
+}
