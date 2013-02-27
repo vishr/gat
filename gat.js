@@ -4,10 +4,10 @@ var https = require("https");
 var p = require("path");
 var fs = require("fs-extra");
 var winston = require("winston");
-var cfg = require("./config.json");
+var cfg = exports.config = require("./config.json");
 var pkg = require("./package.json");
 
-cfg.root = p.join(process.env.HOME || process.env.USERPROFILE, ".cacher");
+cfg.root = p.join(process.env.HOME || process.env.USERPROFILE, ".gat");
 
 // Logging
 var logger = new winston.Logger({
@@ -17,7 +17,7 @@ var logger = new winston.Logger({
   })]
 });
 
-function Cacher(protocol, hostname, port) {
+var Gat = exports.Gat = function Gat(protocol, hostname, port) {
   // Validation
   if (!protocol || !hostname) {
     throw new Error("Invalid request");
@@ -33,9 +33,9 @@ function Cacher(protocol, hostname, port) {
   } else {
     throw new Error("Invalid protocol");
   }
-}
+};
 
-Cacher.prototype._mkdirs = function(dir, cb) {
+Gat.prototype._mkdirs = function(dir, cb) {
   fs.exists(dir, function(exists) {
     if (exists) {
       return cb();
@@ -50,25 +50,25 @@ Cacher.prototype._mkdirs = function(dir, cb) {
 };
 
 
-Cacher.prototype._interceptHeaders = function(headers, cacher, cb) {
+Gat.prototype._interceptHeaders = function(headers, gat, cb) {
   headers["host"] = this.hostname + ":" + this.port;
-  headers["user-agent"] = "Cacher/" + pkg.version;
-  fs.readJson(cacher.head, function(err, data) {
+  headers["user-agent"] = "Gat/" + pkg.version;
+  fs.readJson(gat.head, function(err, data) {
     if (!err) {
       headers["if-modified-since"] = data["last-modified"];
       headers["if-none-match"] = data["etag"];
-      cacher.headers = data;
+      gat.headers = data;
     }
     cb();
   });
 };
 
-Cacher.prototype.get = function(path, headers, cb) {
+Gat.prototype.get = function(path, headers, cb) {
   headers = headers || {};
   var target;
   var self = this;
   var dir = p.join(cfg.root, self.hostname, p.dirname(path));
-  var cacher = {
+  var gat = {
     dir: dir,
     file: p.join(dir, p.basename(path)),
     head: p.join(dir, p.basename(path) + ".head")
@@ -85,15 +85,15 @@ Cacher.prototype.get = function(path, headers, cb) {
       logger.error(err);
       return cb(err);
     }
-    self._interceptHeaders(headers, cacher, function() {
+    self._interceptHeaders(headers, gat, function() {
       self.httpGet(opts, function(res) {
         if (res.statusCode === 200) {
           logger.info("Serving from remote host " + self.hostname);
           target = res;
-          var stream = fs.createWriteStream(cacher.file);
+          var stream = fs.createWriteStream(gat.file);
           stream.on("close", function() {
             // Save headers
-            fs.writeJson(cacher.head, res.headers, function(err) {
+            fs.writeJson(gat.head, res.headers, function(err) {
               if (err) {
                 logger.error(err);
                 // TODO: emit error?
@@ -103,13 +103,13 @@ Cacher.prototype.get = function(path, headers, cb) {
             });
           });
           target.pipe(stream);
-          target.cacher = cacher;
+          target.gat = gat;
           cb(null, target);
         } else if (res.statusCode === 304) {
           logger.info("Serving from local cache " + dir);
-          cacher.headers.date = res.headers.date;
-          target = fs.createReadStream(cacher.file);
-          target.cacher = cacher;
+          gat.headers.date = res.headers.date;
+          target = fs.createReadStream(gat.file);
+          target.gat = gat;
           cb(null, target);
         } else {
           // ?
@@ -118,6 +118,3 @@ Cacher.prototype.get = function(path, headers, cb) {
     });
   });
 };
-
-exports.Cacher = Cacher;
-exports.cfg = cfg;

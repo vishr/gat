@@ -1,5 +1,5 @@
 {
   "port": "1947",
-  "pidFile": "cacher.pid",
-  "logFile": "cacher.log"
+  "pidFile": "gat.pid",
+  "logFile": "gat.log"
 }

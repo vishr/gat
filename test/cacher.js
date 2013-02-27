@@ -1,22 +1,22 @@
 var path = require("path");
 var fs = require("fs-extra");
-var Cacher = require("../cacher").Cacher;
-var cfg = require("../Cacher").cfg;
+var Gat = require("../gat").Gat;
+var cfg = require("../Gat").config;
 
 var TMP = path.join(__dirname, "tmp");
 var FILE1 = "node.png";
 var FILE2 = "walle.png";
 
-var cacher = new Cacher("https", "dl.dropbox.com");
+var gat = new Gat("https", "dl.dropbox.com");
 
-describe("Cacher", function() {
+describe("Gat", function() {
   before(function(done) {
     // Make temporary directory
     fs.mkdirs(TMP, function() {
       // Empty cache
       fs.remove(cfg.root, function() {
         // Cache FILE2
-        cacher.get("/u/11522638/" + FILE2, null, function(err, stream) {
+        gat.get("/u/11522638/" + FILE2, null, function(err, stream) {
           if (err) {
             return done(err);
           }
@@ -28,7 +28,7 @@ describe("Cacher", function() {
 
   describe("#get()", function() {
     it("should get the resouce from remote host", function(done) {
-      cacher.get("/u/11522638/" + FILE1, null, function(err, stream) {
+      gat.get("/u/11522638/" + FILE1, null, function(err, stream) {
         if (err) {
           return done(err);
         }
@@ -42,7 +42,7 @@ describe("Cacher", function() {
     });
 
     it("should get the resouce from local cache", function(done) {
-      cacher.get("/u/11522638/" + FILE2, null, function(err, stream) {
+      gat.get("/u/11522638/" + FILE2, null, function(err, stream) {
         if (err) {
           return done(err);
         }

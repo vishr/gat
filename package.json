@@ -1,21 +1,26 @@
 {
-  "name": "cacher",
+  "name": "gat",
   "version": "0.0.1",
-  "description": "HTTP caching server",
-  "main": "cacher.js",
-  "bin": "bin/cacher",
+  "description": "An HTTP caching server",
+  "main": "gat",
+  "bin": "bin/gat",
   "dependencies": {
-    "fs-extra": "~0.5.0",
-    "lodash": "1.x"
+    "commander": "1.1.x",
+    "fs-extra": "0.5.x",
+    "lodash": "1.x",
+    "winston": "0.6.x"
   },
   "devDependencies": {
     "mocha": "1.x"
   },
   "scripts": {
     "test": "mocha -t 60s -R spec",
-    "start": "node cacher.js"
+    "start": "node server"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vishr/gat.git"
+  },
   "keywords": ["http", "cache", "proxy"],
   "engines": {
     "node": "0.8.x"
