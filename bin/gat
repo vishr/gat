@@ -23,7 +23,7 @@ program.version(pkg.version);
 program.command("config").description("Show config").action(function() {
   try {
     var data = fs.readJsonSync(path.join(__dirname, "..", "config.json"));
-    logger.info(data);
+    logger.info(JSON.stringify(data, null, 2));
   } catch (e) {
     logger.error("Error reading config");
     // process.exit(1);
