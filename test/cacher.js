@@ -1,7 +1,7 @@
 var path = require("path");
 var fs = require("fs-extra");
 var Gat = require("../gat").Gat;
-var cfg = require("../Gat").config;
+var cfg = require("../gat").config;
 
 var TMP = path.join(__dirname, "tmp");
 var FILE1 = "node.png";
