@@ -49,12 +49,12 @@ Coming soon...
 ## Usage
 
 ### Standalone
-> **Request**
+**Request**
 ```sh
   Request URL: http://<hostname>:<port>/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png
   Request Method: GET
 ```
-> **Response**
+**Response**
 ```sh
   HTTP/1.1 200 OK
   accept-ranges: bytes
