@@ -11,7 +11,10 @@ Coming soon...
   $ npm i gat -g
 ```
 
-## Adminstration
+## Usage
+
+### Standalone
+**Commands**
 ```sh
   $ gat -h
 
@@ -45,10 +48,6 @@ Coming soon...
   $ gat empty
     warn: Emptying cache
 ```
-
-## Usage
-
-### Standalone
 **Request**
 ```sh
   Request URL: http://<hostname>:<port>/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png
