@@ -6,7 +6,7 @@ An HTTP caching server
 * Supports http and https protocols
 * Configurable limit for the cache
 * Automatically deletes the resouce not found on the remote host
-* Automatically reclaims the disk space based on LRU
+* Automatically reclaims the disk space based on LRU - coming soon!
 * Saves bandwidth and time
 
 ## Installation
