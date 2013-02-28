@@ -1,5 +1,5 @@
-Cacher [![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
-======
+Gat [![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
+===
 
 An HTTP caching server
 
