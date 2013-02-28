@@ -1,13 +1,13 @@
 // "use strict";
 var http = require("http");
 var https = require("https");
-var p = require("path");
+var path = require("path");
 var fs = require("fs-extra");
 var winston = require("winston");
 var cfg = exports.config = require("./config.json");
 var pkg = require("./package.json");
 
-cfg.root = p.join(process.env.HOME || process.env.USERPROFILE, ".gat");
+cfg.root = path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
 
 // Logging
 var logger = new winston.Logger({
@@ -63,20 +63,26 @@ Gat.prototype._interceptHeaders = function(headers, gat, cb) {
   });
 };
 
-Gat.prototype.get = function(path, headers, cb) {
+Gat.prototype.get = function(resource, headers, cb) {
+  // Validation
+  if (!resource) {
+    return cb(new Error("Resource not defined"));
+  }
+
   headers = headers || {};
+
   var target;
   var self = this;
-  var dir = p.join(cfg.root, self.hostname, p.dirname(path));
+  var dir = path.join(cfg.root, self.hostname, path.dirname(resource));
   var gat = {
     dir: dir,
-    file: p.join(dir, p.basename(path)),
-    head: p.join(dir, p.basename(path) + ".head")
+    file: path.join(dir, path.basename(resource)),
+    head: path.join(dir, path.basename(resource) + ".head")
   };
   var opts = {
     hostname: self.hostname,
     port: self.port,
-    path: path,
+    path: resource,
     headers: headers
   };
 
