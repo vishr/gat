@@ -1,43 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <title>Gat by vishr</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Gat</h1>
-        <h2>An HTTP caching server</h2>
-        <a href="https://github.com/vishr/gat" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/vishr/gat">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/vishr/gat/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/vishr/gat/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>Gat <a href="https://travis-ci.org/vishr/gat"><img src="https://travis-ci.org/vishr/gat.png?branch=master" alt="Build Status"></a>
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Gat</h1>
+          <p>An HTTP caching server</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/vishr">vishr</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Gat <a href="https://travis-ci.org/vishr/gat"><img src="https://travis-ci.org/vishr/gat.png?branch=master" alt="Build Status"></a>
 </h1>
 
 <p>An HTTP caching server</p>
 
 <h2>Features</h2>
 
-<p>Coming soon...</p>
-
-<h2>Installation</h2>
+<ul>
+<li>Supports http and https protocols</li>
+<li>Configurable limit for the cache</li>
+<li>Automatically deletes the resouce not found on the remote host</li>
+<li>Automatically reclaims the disk space based on LRU</li>
+<li>Saves bandwidth and time</li>
+</ul><h2>Installation</h2>
 
 <div class="highlight"><pre>  <span class="nv">$ </span>npm i gat -g
 </pre></div>
@@ -57,9 +71,11 @@
       config                 Show config
       start                  Start gat
       stop                   Stop gat
+      restart                Restart gat
       empty                  Empty cache
+      *                      Unknown <span class="nb">command</span>
 
-    Options:
+<span class="nb">    </span>Options:
 
       -h, --help     output usage information
       -V, --version  output the version number
@@ -69,6 +85,10 @@
 
   <span class="nv">$ </span>gat stop
     warn: Stopping gat
+
+  <span class="nv">$ </span>gat restart
+    warn: Stopping gat
+    info: Starting gat on port 1947
 
   <span class="nv">$ </span>gat config
     info: <span class="o">{</span>
@@ -83,7 +103,7 @@
 
 <p><strong>Request</strong></p>
 
-<div class="highlight"><pre>  Request URL: http://&lt;hostname&gt;:&lt;port&gt;/?protocol<span class="o">=</span>https&amp;hostname<span class="o">=</span>dl.dropbox.com&amp;resource<span class="o">=</span>/u/11522638/node.png
+<div class="highlight"><pre>  Request URL: http://<span class="o">[</span>hostname<span class="o">]</span>:<span class="o">[</span>port<span class="o">]</span>/?protocol<span class="o">=</span>https&amp;hostname<span class="o">=</span>dl.dropbox.com&amp;resource<span class="o">=</span>/u/11522638/node.png
   Request Method: GET
 </pre></div>
 
@@ -105,40 +125,30 @@
 
 <h3>As a node module</h3>
 
-<div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">);</span>
+<div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">os</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"os"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">Gat</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../gat"</span><span class="p">).</span><span class="nx">Gat</span><span class="p">;</span>
 
+  <span class="kd">var</span> <span class="nx">TMP_DIR</span> <span class="o">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">();</span>
   <span class="kd">var</span> <span class="nx">FILE</span> <span class="o">=</span> <span class="s2">"node.png"</span><span class="p">;</span>
 
   <span class="kd">var</span> <span class="nx">gat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gat</span><span class="p">(</span><span class="s2">"https"</span><span class="p">,</span> <span class="s2">"dl.dropbox.com"</span><span class="p">);</span>
   <span class="nx">gat</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/u/11522638/"</span> <span class="o">+</span> <span class="nx">FILE</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stream</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">)));</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">TMP_DIR</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">)));</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"close"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"File %s saved in %s"</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">,</span> <span class="nx">TMP_DIR</span><span class="p">);</span>
+    <span class="p">});</span>
   <span class="p">});</span>
 </pre></div>
-        </section>
+      </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/vishr/gat/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/vishr/gat/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/vishr/gat"></a> is maintained by <a href="https://github.com/vishr">vishr</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
     </div>
-
-            <script type="text/javascript">
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
