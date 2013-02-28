@@ -28,7 +28,12 @@
 
     <div class="container">
       <section id="main_content">
-        <h2>Features</h2>
+        <h1>Gat <a href="https://travis-ci.org/vishr/gat"><img src="https://travis-ci.org/vishr/gat.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>An HTTP caching server</p>
+
+<h2>Features</h2>
 
 <p>Coming soon...</p>
 
@@ -76,15 +81,46 @@
 
 <h3>Standalone</h3>
 
-<p>Coming soon...</p>
+<blockquote>
+<p><strong>Request</strong></p>
+
+<div class="highlight"><pre>  Request URL: http://&lt;hostname&gt;:&lt;port&gt;/?protocol<span class="o">=</span>https&amp;hostname<span class="o">=</span>dl.dropbox.com&amp;resource<span class="o">=</span>/u/11522638/node.png
+  Request Method: GET
+</pre></div>
+
+<p><strong>Response</strong></p>
+
+<div class="highlight"><pre>  HTTP/1.1 200 OK
+  accept-ranges: bytes
+  cache-control: max-age<span class="o">=</span>0
+  connection: keep-alive
+  content-length: 817701
+  content-type: image/png
+  date: Thu, 28 Feb 2013 03:03:50 GMT
+  pragma: public
+  server: Gat/0.0.2
+  x-dropbox-request-id: 067c2a3540f5d11e
+  x-robots-tag: noindex,nofollow
+  x-server-response-time: 460
+</pre></div>
+</blockquote>
 
 <h3>As a node module</h3>
 
-<p>Coming soon...</p>
+<div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">Gat</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../gat"</span><span class="p">).</span><span class="nx">Gat</span><span class="p">;</span>
 
-<h2>Build</h2>
+  <span class="kd">var</span> <span class="nx">FILE</span> <span class="o">=</span> <span class="s2">"node.png"</span><span class="p">;</span>
 
-<p><a href="https://travis-ci.org/vishr/gat"><img src="https://travis-ci.org/vishr/gat.png?branch=master" alt="Build Status"></a></p>
+  <span class="kd">var</span> <span class="nx">gat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gat</span><span class="p">(</span><span class="s2">"https"</span><span class="p">,</span> <span class="s2">"dl.dropbox.com"</span><span class="p">);</span>
+  <span class="nx">gat</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/u/11522638/"</span> <span class="o">+</span> <span class="nx">FILE</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stream</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">)));</span>
+  <span class="p">});</span>
+</pre></div>
       </section>
     </div>
 
