@@ -18,19 +18,7 @@ var logger = new winston.Logger({
   })]
 });
 
-program.version(pkg.version);
-
-program.command("config").description("Show config").action(function() {
-  try {
-    var data = fs.readJsonSync(path.join(__dirname, "..", "config.json"));
-    logger.info(JSON.stringify(data, null, 2));
-  } catch (e) {
-    logger.error("\n Error reading config");
-    // process.exit(1);
-  }
-});
-
-program.command("start").description("Start gat").action(function() {
+function start() {
   logger.info("Starting gat on port " + cfg.port.grey);
 
   var client = net.connect({
@@ -54,32 +42,66 @@ program.command("start").description("Start gat").action(function() {
     try {
       fs.writeFileSync(cfg.pidFile, child.pid);
       child.unref();
-    } catch(e) {
+    } catch (e) {
       logger.error("Error starting gat");
       // process.exit(1);
     }
   });
-});
+}
 
-program.command("stop").description("Stop gat").action(function() {
+function stop() {
   logger.warn("Stopping gat");
   try {
     var pid = fs.readFileSync(cfg.pidFile, "utf-8");
     process.kill(pid);
-  } catch(e) {
+  } catch (e) {
     logger.error("Error stopping gat - " + "not running".yellow);
     // process.exit(1);
   }
+}
+
+program.version(pkg.version);
+
+program.command("config").description("Show config").action(function() {
+  try {
+    var data = fs.readJsonSync(path.join(__dirname, "..", "config.json"));
+    logger.info(JSON.stringify(data, null, 2));
+  } catch (e) {
+    logger.error("\n Error reading config");
+    // process.exit(1);
+  }
+});
+
+program.command("start").description("Start gat").action(function() {
+  start();
+});
+
+program.command("stop").description("Stop gat").action(function() {
+  stop();
+});
+
+program.command("restart").description("Restart gat").action(function() {
+  stop();
+  setTimeout(start, 200);
 });
 
 program.command("empty").description("Empty cache").action(function() {
   logger.warn("Emptying cache");
   try {
     fs.removeSync(cfg.root);
-  } catch(e) {
+  } catch (e) {
     logger.error("Error emptying cache");
     // process.exit(1);
   }
 });
 
+program.command("*").description("Unknown command").action(function() {
+  logger.error("Unknown command");
+  program.help();
+});
+
 program.parse(process.argv);
+
+if (!program.args.length) {
+  program.help();
+}

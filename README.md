@@ -1,10 +1,13 @@
-Gat [![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
-===
+# Gat [![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
 
 An HTTP caching server
 
 ## Features
-Coming soon...
+* Supports http and https protocols
+* Configurable limit for the cache
+* Automatically deletes the resouce not found on the remote host
+* Automatically reclaims the disk space based on LRU
+* Saves bandwidth and time
 
 ## Installation
 ```sh
@@ -25,7 +28,9 @@ Coming soon...
       config                 Show config
       start                  Start gat
       stop                   Stop gat
+      restart                Restart gat
       empty                  Empty cache
+      *                      Unknown command
 
     Options:
 
@@ -37,6 +42,10 @@ Coming soon...
 
   $ gat stop
     warn: Stopping gat
+
+  $ gat restart
+    warn: Stopping gat
+    info: Starting gat on port 1947
 
   $ gat config
     info: {
@@ -50,7 +59,7 @@ Coming soon...
 ```
 **Request**
 ```sh
-  Request URL: http://<hostname>:<port>/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png
+  Request URL: http://[hostname]:[port]/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png
   Request Method: GET
 ```
 **Response**
@@ -71,17 +80,22 @@ Coming soon...
 
 ### As a node module
 ```js
+  var os = require("os");
   var fs = require("fs");
   var path = require("path");
   var Gat = require("../gat").Gat;
-  
+
+  var TMP_DIR = os.tmpDir();
   var FILE = "node.png";
-  
+
   var gat = new Gat("https", "dl.dropbox.com");
   gat.get("/u/11522638/" + FILE, null, function(err, stream) {
     if (err) {
-      return console.log(err);
+      return console.error(err);
     }
-    stream.pipe(fs.createWriteStream(path.join(__dirname, FILE)));
+    stream.pipe(fs.createWriteStream(path.join(TMP_DIR, FILE)));
+    stream.on("close", function() {
+      console.info("File %s saved in %s", FILE, TMP_DIR);
+    });
   });
 ```

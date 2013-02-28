@@ -19,8 +19,11 @@ var logger = new winston.Logger({
 
 var Gat = exports.Gat = function Gat(protocol, hostname, port) {
   // Validation
-  if (!protocol || !hostname) {
-    throw new Error("Invalid request");
+  if (!protocol) {
+    throw new Error("Invalid protocol");
+  }
+  if (!hostname) {
+    throw new Error("Invalid hostname");
   }
 
   this.hostname = hostname;
@@ -66,9 +69,8 @@ Gat.prototype._interceptHeaders = function(headers, gat, cb) {
 Gat.prototype.get = function(resource, headers, cb) {
   // Validation
   if (!resource) {
-    return cb(new Error("Resource not defined"));
+    return cb(new Error("Invalid resource"));
   }
-
   headers = headers || {};
 
   var target;
@@ -102,8 +104,6 @@ Gat.prototype.get = function(resource, headers, cb) {
             fs.writeJson(gat.head, res.headers, function(err) {
               if (err) {
                 logger.error(err);
-                // TODO: emit error?
-                // return cb(err);
               }
               target.emit("close");
             });
@@ -117,8 +117,16 @@ Gat.prototype.get = function(resource, headers, cb) {
           target = fs.createReadStream(gat.file);
           target.gat = gat;
           cb(null, target);
+        } else if (res.statusCode === 404) {
+          // Delete the resource
+          fs.remove(gat.file, function(err) {
+            if (err) {
+              return cb(err);
+            }
+            cb(null, null);
+          });
         } else {
-          // ?
+          // ???
         }
       });
     });
