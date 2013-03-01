@@ -19,7 +19,7 @@ var logger = new winston.Logger({
 });
 
 function start() {
-  logger.info("Starting gat on port " + cfg.port.grey);
+  logger.info("starting gat on port " + cfg.port.grey);
 
   var client = net.connect({
     port: cfg.port
@@ -27,7 +27,7 @@ function start() {
 
   // Check if already running
   client.on("connect", function() {
-    logger.error("Error starting gat - " + "port already in use".yellow);
+    logger.error("failed starting gat - " + "port already in use".yellow);
     client.end();
     // process.exit(-1);
   });
@@ -43,19 +43,19 @@ function start() {
       fs.writeFileSync(cfg.pidFile, child.pid);
       child.unref();
     } catch (e) {
-      logger.error("Error starting gat");
+      logger.error("failed starting gat");
       // process.exit(1);
     }
   });
 }
 
 function stop() {
-  logger.warn("Stopping gat");
+  logger.warn("stopping gat");
   try {
     var pid = fs.readFileSync(cfg.pidFile, "utf-8");
     process.kill(pid);
   } catch (e) {
-    logger.error("Error stopping gat - " + "not running".yellow);
+    logger.error("failed stopping gat - " + "not running".yellow);
     // process.exit(1);
   }
 }
@@ -67,36 +67,36 @@ program.command("config").description("Show config").action(function() {
     var data = fs.readJsonSync(path.join(__dirname, "..", "config.json"));
     logger.info(JSON.stringify(data, null, 2));
   } catch (e) {
-    logger.error("\n Error reading config");
+    logger.error("\n error reading config");
     // process.exit(1);
   }
 });
 
-program.command("start").description("Start gat").action(function() {
+program.command("start").description("start gat").action(function() {
   start();
 });
 
-program.command("stop").description("Stop gat").action(function() {
+program.command("stop").description("stop gat").action(function() {
   stop();
 });
 
-program.command("restart").description("Restart gat").action(function() {
+program.command("restart").description("restart gat").action(function() {
   stop();
   setTimeout(start, 200);
 });
 
-program.command("empty").description("Empty cache").action(function() {
-  logger.warn("Emptying cache");
+program.command("empty").description("empty cache").action(function() {
+  logger.warn("emptying cache");
   try {
     fs.removeSync(cfg.root);
   } catch (e) {
-    logger.error("Error emptying cache");
+    logger.error("error emptying cache");
     // process.exit(1);
   }
 });
 
-program.command("*").description("Unknown command").action(function() {
-  logger.error("Unknown command");
+program.command("*").description("unknown command").action(function() {
+  logger.error("unknown command");
   program.help();
 });
 

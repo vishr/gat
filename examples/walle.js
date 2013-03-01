@@ -4,7 +4,7 @@ var path = require("path");
 var Gat = require("../gat").Gat;
 
 var TMP_DIR = os.tmpDir();
-var FILE = "node.png";
+var FILE = "walle.png";
 
 var gat = new Gat("https", "dl.dropbox.com");
 gat.get("/u/11522638/" + FILE, null, function(err, stream) {

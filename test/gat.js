@@ -39,7 +39,7 @@ describe("Gat", function() {
           stream.on("close", done);
           stream.pipe(fs.createWriteStream(path.join(TMP_DIR, FILE1)));
         } else {
-          done(new Error("Failed getting the resource"));
+          done(new Error("failed getting the resource"));
         }
       });
     });
@@ -53,7 +53,7 @@ describe("Gat", function() {
           stream.on("close", done);
           stream.pipe(fs.createWriteStream(path.join(TMP_DIR, FILE2)));
         } else {
-          done(new Error("Failed getting the resource"));
+          done(new Error("failed getting the resource"));
         }
       });
     });
@@ -66,7 +66,7 @@ describe("Gat", function() {
         if (!stream) {
           done();
         } else {
-          done(new Error("Failed deleting the resource"));
+          done(new Error("failed deleting the resource"));
         }
       });
     });

@@ -20,10 +20,10 @@ var logger = new winston.Logger({
 var Gat = exports.Gat = function Gat(protocol, hostname, port) {
   // Validation
   if (!protocol) {
-    throw new Error("Invalid protocol");
+    throw new Error("invalid protocol");
   }
   if (!hostname) {
-    throw new Error("Invalid hostname");
+    throw new Error("invalid hostname");
   }
 
   this.hostname = hostname;
@@ -34,7 +34,7 @@ var Gat = exports.Gat = function Gat(protocol, hostname, port) {
     this.port = port || 443;
     this.httpGet = https.get;
   } else {
-    throw new Error("Invalid protocol");
+    throw new Error("invalid protocol");
   }
 };
 
@@ -69,7 +69,7 @@ Gat.prototype._interceptHeaders = function(headers, gat, cb) {
 Gat.prototype.get = function(resource, headers, cb) {
   // Validation
   if (!resource) {
-    return cb(new Error("Invalid resource"));
+    return cb(new Error("invalid resource"));
   }
   headers = headers || {};
 
@@ -96,7 +96,7 @@ Gat.prototype.get = function(resource, headers, cb) {
     self._interceptHeaders(headers, gat, function() {
       self.httpGet(opts, function(res) {
         if (res.statusCode === 200) {
-          logger.info("Serving from remote host " + self.hostname);
+          logger.info("serving from remote host " + self.hostname);
           target = res;
           var stream = fs.createWriteStream(gat.file);
           stream.on("close", function() {
@@ -112,7 +112,7 @@ Gat.prototype.get = function(resource, headers, cb) {
           target.gat = gat;
           cb(null, target);
         } else if (res.statusCode === 304) {
-          logger.info("Serving from local cache " + dir);
+          logger.info("serving from local cache " + dir);
           gat.headers.date = res.headers.date;
           target = fs.createReadStream(gat.file);
           target.gat = gat;

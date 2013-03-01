@@ -4,7 +4,7 @@ An HTTP caching server
 
 ## Features
 * Supports http and https protocols
-* Configurable limit for the cache
+* Configurable limit for the cache - coming soon!
 * Automatically deletes the resouce not found on the remote host
 * Automatically reclaims the disk space based on LRU - coming soon!
 * Saves bandwidth and time
@@ -38,14 +38,14 @@ An HTTP caching server
       -V, --version  output the version number
 
   $ gat start
-    info: Starting gat on port 1947
+    info: starting gat on port 1947
 
   $ gat stop
-    warn: Stopping gat
+    warn: stopping gat
 
   $ gat restart
-    warn: Stopping gat
-    info: Starting gat on port 1947
+    warn: stopping gat
+    info: starting gat on port 1947
 
   $ gat config
     info: {
@@ -55,7 +55,7 @@ An HTTP caching server
     }
 
   $ gat empty
-    warn: Emptying cache
+    warn: emptying cache
 ```
 **Request**
 ```sh
@@ -70,12 +70,12 @@ An HTTP caching server
   connection: keep-alive
   content-length: 817701
   content-type: image/png
-  date: Thu, 28 Feb 2013 03:03:50 GMT
+  date: Thu, 28 Feb 2013 23:30:02 GMT
   pragma: public
-  server: Gat/0.0.2
-  x-dropbox-request-id: 067c2a3540f5d11e
+  server: Gat/0.0.3
+  x-dropbox-request-id: 0e86ab125c680083
   x-robots-tag: noindex,nofollow
-  x-server-response-time: 460
+  x-server-response-time: 381
 ```
 
 ### As a node module
@@ -86,7 +86,7 @@ An HTTP caching server
   var Gat = require("../gat").Gat;
 
   var TMP_DIR = os.tmpDir();
-  var FILE = "node.png";
+  var FILE = "walle.png";
 
   var gat = new Gat("https", "dl.dropbox.com");
   gat.get("/u/11522638/" + FILE, null, function(err, stream) {
