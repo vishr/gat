@@ -47,9 +47,9 @@
 
 <ul>
 <li>Supports http and https protocols</li>
-<li>Configurable limit for the cache</li>
+<li>Configurable limit for the cache - coming soon!</li>
 <li>Automatically deletes the resouce not found on the remote host</li>
-<li>Automatically reclaims the disk space based on LRU</li>
+<li>Automatically reclaims the disk space based on LRU - coming soon!</li>
 <li>Saves bandwidth and time</li>
 </ul><h2>Installation</h2>
 
@@ -81,14 +81,14 @@
       -V, --version  output the version number
 
   <span class="nv">$ </span>gat start
-    info: Starting gat on port 1947
+    info: starting gat on port 1947
 
   <span class="nv">$ </span>gat stop
-    warn: Stopping gat
+    warn: stopping gat
 
   <span class="nv">$ </span>gat restart
-    warn: Stopping gat
-    info: Starting gat on port 1947
+    warn: stopping gat
+    info: starting gat on port 1947
 
   <span class="nv">$ </span>gat config
     info: <span class="o">{</span>
@@ -98,7 +98,7 @@
     <span class="o">}</span>
 
   <span class="nv">$ </span>gat empty
-    warn: Emptying cache
+    warn: emptying cache
 </pre></div>
 
 <p><strong>Request</strong></p>
@@ -115,12 +115,12 @@
   connection: keep-alive
   content-length: 817701
   content-type: image/png
-  date: Thu, 28 Feb 2013 03:03:50 GMT
+  date: Thu, 28 Feb 2013 23:30:02 GMT
   pragma: public
-  server: Gat/0.0.2
-  x-dropbox-request-id: 067c2a3540f5d11e
+  server: Gat/0.0.3
+  x-dropbox-request-id: 0e86ab125c680083
   x-robots-tag: noindex,nofollow
-  x-server-response-time: 460
+  x-server-response-time: 381
 </pre></div>
 
 <h3>As a node module</h3>
@@ -131,7 +131,7 @@
   <span class="kd">var</span> <span class="nx">Gat</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../gat"</span><span class="p">).</span><span class="nx">Gat</span><span class="p">;</span>
 
   <span class="kd">var</span> <span class="nx">TMP_DIR</span> <span class="o">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">();</span>
-  <span class="kd">var</span> <span class="nx">FILE</span> <span class="o">=</span> <span class="s2">"node.png"</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">FILE</span> <span class="o">=</span> <span class="s2">"walle.png"</span><span class="p">;</span>
 
   <span class="kd">var</span> <span class="nx">gat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gat</span><span class="p">(</span><span class="s2">"https"</span><span class="p">,</span> <span class="s2">"dl.dropbox.com"</span><span class="p">);</span>
   <span class="nx">gat</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/u/11522638/"</span> <span class="o">+</span> <span class="nx">FILE</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stream</span><span class="p">)</span> <span class="p">{</span>
