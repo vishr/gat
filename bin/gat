@@ -6,8 +6,8 @@ var fs = require("fs-extra");
 var spawn = require("child_process").spawn;
 var net = require("net");
 var winston = require("winston");
-var pkg = require("../package.json");
 var cfg = require("../gat").config;
+var pkg = require("../package.json");
 
 // Logging
 var logger = new winston.Logger({
@@ -19,8 +19,7 @@ var logger = new winston.Logger({
 });
 
 function start() {
-  logger.info("starting gat on port " + cfg.port.grey);
-
+  logger.info("starting gat on port " + cfg.port.toString().grey);
   var client = net.connect({
     port: cfg.port
   });

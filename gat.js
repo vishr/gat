@@ -4,10 +4,17 @@ var https = require("https");
 var path = require("path");
 var fs = require("fs-extra");
 var winston = require("winston");
-var cfg = exports.config = require("./config.json");
+var _ = require("lodash");
 var pkg = require("./package.json");
 
-cfg.root = path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
+// Configuration
+var cfgFile = path.join(__dirname, "config.json");
+var cfg = exports.config = fs.existsSync(cfgFile) ? fs.readJsonSync(cfgFile) : {};
+cfg.port = cfg.port || 1947;
+cfg.pidFile = cfg.pidFile || "gat.pid";
+cfg.logFile = cfg.logFile || "gat.log";
+cfg.cacheDir = cfg.cacheDir || path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
+fs.writeJsonSync(cfgFile, cfg);
 
 // Logging
 var logger = new winston.Logger({
@@ -38,6 +45,15 @@ var Gat = exports.Gat = function Gat(protocol, hostname, port) {
   }
 };
 
+Gat.setConfig = function(config) {
+  logger.info("setting config");
+  try {
+    fs.writeJsonSync(cfgFile, _.assign(cfg, config));
+  } catch (e) {
+    logger.error("error saving config");
+  }
+};
+
 Gat.prototype._mkdirs = function(dir, cb) {
   fs.exists(dir, function(exists) {
     if (exists) {
@@ -51,7 +67,6 @@ Gat.prototype._mkdirs = function(dir, cb) {
     });
   });
 };
-
 
 Gat.prototype._interceptHeaders = function(headers, gat, cb) {
   headers["host"] = this.hostname + ":" + this.port;
@@ -75,7 +90,7 @@ Gat.prototype.get = function(resource, headers, cb) {
 
   var target;
   var self = this;
-  var dir = path.join(cfg.root, self.hostname, path.dirname(resource));
+  var dir = path.join(cfg.cacheDir, self.hostname, path.dirname(resource));
   var gat = {
     dir: dir,
     file: path.join(dir, path.basename(resource)),

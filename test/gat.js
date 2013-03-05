@@ -15,7 +15,7 @@ describe("Gat", function() {
     // Make temporary directory
     fs.mkdirs(TMP_DIR, function() {
       // Empty cache
-      fs.remove(cfg.root, function() {
+      fs.remove(cfg.cacheDir, function() {
         // Cache FILE2
         gat.get("/u/11522638/" + FILE2, null, function(err, stream) {
           if (err) {
