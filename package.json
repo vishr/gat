@@ -1,6 +1,6 @@
 {
   "name": "gat",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An HTTP caching server",
   "main": "gat",
   "bin": "bin/gat",
@@ -21,7 +21,11 @@
     "type": "git",
     "url": "https://github.com/vishr/gat.git"
   },
-  "keywords": ["http", "cache", "proxy"],
+  "keywords": [
+    "http",
+    "cache",
+    "proxy"
+  ],
   "engines": {
     "node": "0.8.x"
   },
