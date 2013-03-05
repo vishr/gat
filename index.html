@@ -92,9 +92,10 @@
 
   <span class="nv">$ </span>gat config
     info: <span class="o">{</span>
-      <span class="s2">"port"</span>: <span class="s2">"1947"</span>,
+      <span class="s2">"port"</span>: 1947,
       <span class="s2">"pidFile"</span>: <span class="s2">"gat.pid"</span>,
-      <span class="s2">"logFile"</span>: <span class="s2">"gat.log"</span>
+      <span class="s2">"logFile"</span>: <span class="s2">"gat.log"</span>,
+      <span class="s2">"cacheDir"</span>: <span class="s2">"/Users/vrana/.gat"</span>
     <span class="o">}</span>
 
   <span class="nv">$ </span>gat empty
@@ -130,17 +131,21 @@
   <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">Gat</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../gat"</span><span class="p">).</span><span class="nx">Gat</span><span class="p">;</span>
 
-  <span class="kd">var</span> <span class="nx">TMP_DIR</span> <span class="o">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">();</span>
   <span class="kd">var</span> <span class="nx">FILE</span> <span class="o">=</span> <span class="s2">"walle.png"</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">FILE_PATH</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">(),</span> <span class="nx">FILE</span><span class="p">);</span>
+
+  <span class="nx">Gat</span><span class="p">.</span><span class="nx">setConfig</span><span class="p">({</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="mi">4444</span>
+  <span class="p">});</span>
 
   <span class="kd">var</span> <span class="nx">gat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gat</span><span class="p">(</span><span class="s2">"https"</span><span class="p">,</span> <span class="s2">"dl.dropbox.com"</span><span class="p">);</span>
   <span class="nx">gat</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/u/11522638/"</span> <span class="o">+</span> <span class="nx">FILE</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stream</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">TMP_DIR</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">)));</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">FILE_PATH</span><span class="p">));</span>
     <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"close"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"File %s saved in %s"</span><span class="p">,</span> <span class="nx">FILE</span><span class="p">,</span> <span class="nx">TMP_DIR</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">"File saved: "</span> <span class="o">+</span> <span class="nx">FILE_PATH</span><span class="p">);</span>
     <span class="p">});</span>
   <span class="p">});</span>
 </pre></div>
