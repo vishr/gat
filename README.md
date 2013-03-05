@@ -60,8 +60,7 @@ An HTTP caching server
 ```
 **Request**
 ```sh
-  wget -O node.png "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com\
-  &resource=/u/11522638/node.png"
+  wget -O node.png "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
 ```
 **Response**
 ```sh
