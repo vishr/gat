@@ -6,7 +6,7 @@ var logger = require("./gat").logger;
 var cfg = require("./gat").config;
 var pkg = require("./package.json");
 
-http.createServer(function(req, res) {
+var server = http.createServer(function(req, res) {
   var urlObj = url.parse(req.url, true);
   var query = urlObj.query;
 
@@ -41,7 +41,12 @@ http.createServer(function(req, res) {
       }
     });
   }
-}).listen(cfg.port, "0.0.0.0", function(err) {
-  logger.error(err);
+}).listen(cfg.port, "0.0.0.0");
+
+server.on("listening", function() {
   logger.info("gat started on port " + cfg.port);
+});
+
+server.on("error", function(err) {
+  logger.error(err);
 });
