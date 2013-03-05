@@ -39,7 +39,7 @@ function start() {
     });
 
     try {
-      fs.writeFileSync(cfg.pidFile, child.pid);
+      fs.writeFileSync(cfg.pidFile, child.pid + "\n");
       child.unref();
     } catch (e) {
       logger.error("failed starting gat");

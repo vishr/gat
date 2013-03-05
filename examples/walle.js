@@ -7,7 +7,7 @@ var FILE = "walle.png";
 var FILE_PATH = path.join(os.tmpDir(), FILE);
 
 Gat.setConfig({
-  port: 4444
+  port: 3737
 });
 
 var gat = new Gat("https", "dl.dropbox.com");

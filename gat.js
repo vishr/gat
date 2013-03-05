@@ -10,14 +10,15 @@ var pkg = require("./package.json");
 // Configuration
 var cfgFile = path.join(__dirname, "config.json");
 var cfg = exports.config = fs.existsSync(cfgFile) ? fs.readJsonSync(cfgFile) : {};
+cfg.root = cfg.root || path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
 cfg.port = cfg.port || 1947;
-cfg.pidFile = cfg.pidFile || "gat.pid";
-cfg.logFile = cfg.logFile || "gat.log";
-cfg.cacheDir = cfg.cacheDir || path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
+cfg.pidFile = cfg.pidFile || path.join(cfg.root, "gat.pid");
+cfg.logFile = cfg.logFile || path.join(cfg.root, "gat.log");
+cfg.cacheDir = cfg.cacheDir || path.join(cfg.root, "cache");
 fs.writeJsonSync(cfgFile, cfg);
 
 // Logging
-var logger = new winston.Logger({
+var logger = exports.logger = new winston.Logger({
   transports: [
   new winston.transports.File({
     filename: cfg.logFile

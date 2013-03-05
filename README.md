@@ -60,23 +60,23 @@ An HTTP caching server
 ```
 **Request**
 ```sh
-  Request URL: http://[hostname]:[port]/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png
-  Request Method: GET
+  wget -O node.png "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com\
+  &resource=/u/11522638/node.png"
 ```
 **Response**
 ```sh
   HTTP/1.1 200 OK
-  accept-ranges: bytes
-  cache-control: max-age=0
-  connection: keep-alive
-  content-length: 817701
+  server: Gat/0.0.5
+  date: Tue, 05 Mar 2013 20:49:56 GMT
   content-type: image/png
-  date: Thu, 28 Feb 2013 23:30:02 GMT
-  pragma: public
-  server: Gat/0.0.3
-  x-dropbox-request-id: 0e86ab125c680083
+  content-length: 817701
+  connection: keep-alive
   x-robots-tag: noindex,nofollow
-  x-server-response-time: 381
+  accept-ranges: bytes
+  x-server-response-time: 577
+  x-dropbox-request-id: 9714a7f21dd6be8b
+  pragma: public
+  cache-control: max-age=0
 ```
 
 ### As a node module

@@ -2,6 +2,7 @@ var http = require("http");
 var url = require("url");
 var _ = require("lodash");
 var Gat = require("./gat").Gat;
+var logger = require("./gat").logger;
 var cfg = require("./gat").config;
 var pkg = require("./package.json");
 
@@ -40,4 +41,7 @@ http.createServer(function(req, res) {
       }
     });
   }
-}).listen(cfg.port, "0.0.0.0");
+}).listen(cfg.port, "0.0.0.0", function(err) {
+  logger.error(err);
+  logger.info("gat started on port " + cfg.port);
+});
