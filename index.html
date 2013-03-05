@@ -1,43 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
     <title>Gat by vishr</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/vishr/gat">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/vishr/gat/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/vishr/gat/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
 
-    <div class="wrapper">
+    <header>
+      <div class="container">
+        <h1>Gat</h1>
+        <h2>An HTTP caching server</h2>
 
-      <section>
-        <div id="title">
-          <h1>Gat</h1>
-          <p>An HTTP caching server</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/vishr">vishr</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
+        <section id="downloads">
+          <a href="https://github.com/vishr/gat/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/vishr/gat/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/vishr/gat" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
 
+    <div class="container">
+      <section id="main_content">
         <h1>Gat <a href="https://travis-ci.org/vishr/gat"><img src="https://travis-ci.org/vishr/gat.png?branch=master" alt="Build Status"></a>
 </h1>
 
@@ -104,24 +94,23 @@
 
 <p><strong>Request</strong></p>
 
-<div class="highlight"><pre>  Request URL: http://<span class="o">[</span>hostname<span class="o">]</span>:<span class="o">[</span>port<span class="o">]</span>/?protocol<span class="o">=</span>https&amp;hostname<span class="o">=</span>dl.dropbox.com&amp;resource<span class="o">=</span>/u/11522638/node.png
-  Request Method: GET
+<div class="highlight"><pre>  wget -O node.png <span class="s2">"http://localhost:1947/?protocol=https&amp;hostname=dl.dropbox.com&amp;resource=/u/11522638/node.png"</span>
 </pre></div>
 
 <p><strong>Response</strong></p>
 
 <div class="highlight"><pre>  HTTP/1.1 200 OK
-  accept-ranges: bytes
-  cache-control: max-age<span class="o">=</span>0
-  connection: keep-alive
-  content-length: 817701
+  server: Gat/0.0.5
+  date: Tue, 05 Mar 2013 20:49:56 GMT
   content-type: image/png
-  date: Thu, 28 Feb 2013 23:30:02 GMT
-  pragma: public
-  server: Gat/0.0.3
-  x-dropbox-request-id: 0e86ab125c680083
+  content-length: 817701
+  connection: keep-alive
   x-robots-tag: noindex,nofollow
-  x-server-response-time: 381
+  accept-ranges: bytes
+  x-server-response-time: 577
+  x-dropbox-request-id: 9714a7f21dd6be8b
+  pragma: public
+  cache-control: max-age<span class="o">=</span>0
 </pre></div>
 
 <h3>As a node module</h3>
@@ -135,7 +124,7 @@
   <span class="kd">var</span> <span class="nx">FILE_PATH</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">(),</span> <span class="nx">FILE</span><span class="p">);</span>
 
   <span class="nx">Gat</span><span class="p">.</span><span class="nx">setConfig</span><span class="p">({</span>
-    <span class="nx">port</span><span class="o">:</span> <span class="mi">4444</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="mi">3737</span>
   <span class="p">});</span>
 
   <span class="kd">var</span> <span class="nx">gat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Gat</span><span class="p">(</span><span class="s2">"https"</span><span class="p">,</span> <span class="s2">"dl.dropbox.com"</span><span class="p">);</span>
@@ -150,9 +139,8 @@
   <span class="p">});</span>
 </pre></div>
       </section>
-
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
