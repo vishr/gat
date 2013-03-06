@@ -1,6 +1,6 @@
 {
   "name": "gat",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "An HTTP caching server",
   "main": "gat",
   "bin": "bin/gat",
