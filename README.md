@@ -49,10 +49,11 @@ An HTTP caching server
 
   $ gat config
     info: {
+      "root": "/Users/vrana/.gat",
       "port": 1947,
-      "pidFile": "gat.pid",
-      "logFile": "gat.log",
-      "cacheDir": "/Users/vrana/.gat"
+      "pidFile": "/Users/vrana/.gat/gat.pid",
+      "logFile": "/Users/vrana/.gat/gat.log",
+      "cacheDir": "/Users/vrana/.gat/cache"
     }
 
   $ gat empty
@@ -60,13 +61,13 @@ An HTTP caching server
 ```
 **Request**
 ```sh
-  wget -O node.png "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com\
-  &resource=/u/11522638/node.png"
+  wget -O node.png "http://localhost:1947/?protocol=https\
+  &hostname=dl.dropbox.com&resource=/u/11522638/node.png"
 ```
 **Response**
 ```sh
   HTTP/1.1 200 OK
-  server: Gat/0.0.5
+  server: Gat/0.0.7
   date: Tue, 05 Mar 2013 20:49:56 GMT
   content-type: image/png
   content-length: 817701

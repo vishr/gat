@@ -26,14 +26,7 @@ var logger = exports.logger = new winston.Logger({
 });
 
 var Gat = exports.Gat = function Gat(protocol, hostname, port) {
-  // Validation
-  if (!protocol) {
-    throw new Error("invalid protocol");
-  }
-  if (!hostname) {
-    throw new Error("invalid hostname");
-  }
-
+  logger.info(arguments);
   this.hostname = hostname;
   if (protocol === "http") {
     this.port = port || 80;
@@ -42,7 +35,7 @@ var Gat = exports.Gat = function Gat(protocol, hostname, port) {
     this.port = port || 443;
     this.httpGet = https.get;
   } else {
-    throw new Error("invalid protocol");
+    throw new Error("protocol not supported");
   }
 };
 
@@ -83,12 +76,8 @@ Gat.prototype._interceptHeaders = function(headers, gat, cb) {
 };
 
 Gat.prototype.get = function(resource, headers, cb) {
-  // Validation
-  if (!resource) {
-    return cb(new Error("invalid resource"));
-  }
+  logger.info(arguments);
   headers = headers || {};
-
   var target;
   var self = this;
   var dir = path.join(cfg.cacheDir, self.hostname, path.dirname(resource));
@@ -110,7 +99,7 @@ Gat.prototype.get = function(resource, headers, cb) {
       return cb(err);
     }
     self._interceptHeaders(headers, gat, function() {
-      self.httpGet(opts, function(res) {
+      var client = self.httpGet(opts, function(res) {
         if (res.statusCode === 200) {
           logger.info("serving from remote host " + self.hostname);
           target = res;
@@ -144,6 +133,11 @@ Gat.prototype.get = function(resource, headers, cb) {
         } else {
           // ???
         }
+      });
+
+      client.on("error", function(err) {
+        logger.error(err);
+        cb(err);
       });
     });
   });

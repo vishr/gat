@@ -43,10 +43,10 @@ var server = http.createServer(function(req, res) {
   }
 }).listen(cfg.port, "0.0.0.0");
 
-server.on("listening", function() {
-  logger.info("gat started on port " + cfg.port);
-});
-
 server.on("error", function(err) {
   logger.error(err);
+});
+
+server.on("listening", function() {
+  logger.info("gat started on port " + cfg.port);
 });

@@ -33,7 +33,7 @@ function start() {
 
   client.on("error", function() {
     // Start gat
-    var child = spawn(process.execPath, ["server"], {
+    var child = spawn(process.execPath, [path.join(__dirname, "..", "server")], {
       detached: true,
       stdio: ["ignore", "ignore", "ignore"]
     });
