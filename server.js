@@ -41,7 +41,7 @@ var server = http.createServer(function(req, res) {
       }
     });
   }
-}).listen(cfg.port, "0.0.0.0");
+}).listen(cfg.port);
 
 server.on("error", function(err) {
   logger.error(err);

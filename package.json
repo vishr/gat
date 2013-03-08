@@ -24,7 +24,10 @@
   "keywords": [
     "http",
     "cache",
-    "proxy"
+    "proxy",
+    "amazon",
+    "aws",
+    "s3"
   ],
   "engines": {
     "node": "0.8.x"
