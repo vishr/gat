@@ -18,47 +18,6 @@ var logger = new winston.Logger({
   })]
 });
 
-function start() {
-  logger.info("starting gat on port " + cfg.port.toString().grey);
-  var client = net.connect({
-    port: cfg.port
-  });
-
-  // Check if already running
-  client.on("connect", function() {
-    logger.error("failed starting gat - " + "port already in use".yellow);
-    client.end();
-    // process.exit(-1);
-  });
-
-  client.on("error", function() {
-    // Start gat
-    var child = spawn(process.execPath, [path.join(__dirname, "..", "server")], {
-      detached: true,
-      stdio: ["ignore", "ignore", "ignore"]
-    });
-
-    try {
-      fs.writeFileSync(cfg.pidFile, child.pid + "\n");
-      child.unref();
-    } catch (e) {
-      logger.error("failed starting gat");
-      // process.exit(1);
-    }
-  });
-}
-
-function stop() {
-  logger.warn("stopping gat");
-  try {
-    var pid = fs.readFileSync(cfg.pidFile, "utf-8");
-    process.kill(pid);
-  } catch (e) {
-    logger.error("failed stopping gat - " + "not running".yellow);
-    // process.exit(1);
-  }
-}
-
 program.version(pkg.version);
 
 program.command("config").description("Show config").action(function() {
@@ -89,7 +48,7 @@ program.command("empty").description("empty cache").action(function() {
   try {
     fs.removeSync(cfg.root);
   } catch (e) {
-    logger.error("error emptying cache");
+    logger.error("error emptying cache - " + e.message.yellow);
     // process.exit(1);
   }
 });
@@ -103,4 +62,45 @@ program.parse(process.argv);
 
 if (!program.args.length) {
   program.help();
+}
+
+function start() {
+  logger.info("starting gat on port " + cfg.port.toString().grey);
+  var client = net.connect({
+    port: cfg.port
+  });
+
+  // Check if already running
+  client.on("connect", function() {
+    logger.error("failed starting gat - " + "port already in use".yellow);
+    client.end();
+    // process.exit(-1);
+  });
+
+  client.on("error", function() {
+    // Start gat
+    var child = spawn(process.execPath, [path.join(__dirname, "..", "server")], {
+      detached: true,
+      stdio: ["ignore", "ignore", "ignore"]
+    });
+
+    try {
+      fs.writeFileSync(cfg.pidFile, child.pid + "\n");
+      child.unref();
+    } catch (e) {
+      logger.error("failed starting gat - " + e.message.yellow);
+      // process.exit(1);
+    }
+  });
+}
+
+function stop() {
+  logger.warn("stopping gat");
+  try {
+    var pid = fs.readFileSync(cfg.pidFile, "utf-8");
+    process.kill(pid);
+  } catch (e) {
+    logger.error("failed stopping gat - " + e.message.yellow);
+    // process.exit(1);
+  }
 }

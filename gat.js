@@ -11,6 +11,7 @@ var pkg = require("./package.json");
 var cfgFile = path.join(__dirname, "config.json");
 var cfg = exports.config = fs.existsSync(cfgFile) ? fs.readJsonSync(cfgFile) : {};
 cfg.root = cfg.root || path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
+fs.mkdirsSync(cfg.root);
 cfg.port = cfg.port || 1947;
 cfg.pidFile = cfg.pidFile || path.join(cfg.root, "gat.pid");
 cfg.logFile = cfg.logFile || path.join(cfg.root, "gat.log");
@@ -48,20 +49,6 @@ Gat.setConfig = function(config) {
   }
 };
 
-Gat.prototype._mkdirs = function(dir, cb) {
-  fs.exists(dir, function(exists) {
-    if (exists) {
-      return cb();
-    }
-    fs.mkdirs(dir, function(err) {
-      if (err) {
-        return cb(err);
-      }
-      cb();
-    });
-  });
-};
-
 Gat.prototype._interceptHeaders = function(headers, gat, cb) {
   headers["host"] = this.hostname + ":" + this.port;
   headers["user-agent"] = "Gat/" + pkg.version;
@@ -93,7 +80,7 @@ Gat.prototype.get = function(resource, headers, cb) {
     headers: headers
   };
 
-  self._mkdirs(dir, function(err) {
+  fs.mkdirs(dir, function(err) {
     if (err) {
       logger.error(err);
       return cb(err);
