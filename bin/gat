@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 
 var program = require("commander");
+var os = require("os");
 var path = require("path");
 var fs = require("fs-extra");
 var spawn = require("child_process").spawn;
 var net = require("net");
 var winston = require("winston");
+var editor = require("editor");
 var cfg = require("../gat").config;
 var pkg = require("../package.json");
+
+var eol = "win32" === os.platform() ? "\r\n" : "\n";
 
 // Logging
 var logger = new winston.Logger({
@@ -18,17 +22,15 @@ var logger = new winston.Logger({
   })]
 });
 
-program.version(pkg.version);
+program.version(pkg.version)
+  .option("-e, --edit", "edit config");
 
-program.command("config").description("Show config").action(function() {
-  try {
-    var data = fs.readJsonSync(path.join(__dirname, "..", "config.json"));
-    logger.info(JSON.stringify(data, null, 2));
-  } catch (e) {
-    logger.error("\n error reading config");
-    // process.exit(1);
-  }
-});
+program.command("config")
+  .description("show config")
+  .action(function() {
+    program.edit ? editor(cfg.file) : logger.info(JSON.stringify(cfg, null, 2));
+    logger.info(cfg.file.grey);
+  });
 
 program.command("start").description("start gat").action(function() {
   start();
@@ -49,7 +51,6 @@ program.command("empty").description("empty cache").action(function() {
     fs.removeSync(cfg.root);
   } catch (e) {
     logger.error("error emptying cache - " + e.message.yellow);
-    // process.exit(1);
   }
 });
 
@@ -74,7 +75,6 @@ function start() {
   client.on("connect", function() {
     logger.error("failed starting gat - " + "port already in use".yellow);
     client.end();
-    // process.exit(-1);
   });
 
   client.on("error", function() {
@@ -85,11 +85,10 @@ function start() {
     });
 
     try {
-      fs.writeFileSync(cfg.pidFile, child.pid + "\n");
+      fs.writeFileSync(cfg.pidFile, child.pid + eol);
       child.unref();
     } catch (e) {
       logger.error("failed starting gat - " + e.message.yellow);
-      // process.exit(1);
     }
   });
 }
@@ -101,6 +100,5 @@ function stop() {
     process.kill(pid);
   } catch (e) {
     logger.error("failed stopping gat - " + e.message.yellow);
-    // process.exit(1);
   }
 }

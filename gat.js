@@ -12,6 +12,7 @@ var cfgFile = path.join(__dirname, "config.json");
 var cfg = exports.config = fs.existsSync(cfgFile) ? fs.readJsonSync(cfgFile) : {};
 cfg.root = cfg.root || path.join(process.env.HOME || process.env.USERPROFILE, ".gat");
 fs.mkdirsSync(cfg.root);
+cfg.file = cfgFile;
 cfg.port = cfg.port || 1947;
 cfg.pidFile = cfg.pidFile || path.join(cfg.root, "gat.pid");
 cfg.logFile = cfg.logFile || path.join(cfg.root, "gat.log");

@@ -1,5 +1,4 @@
 # Gat [![Build Status](https://travis-ci.org/vishr/gat.png?branch=master)](https://travis-ci.org/vishr/gat)
-
 An HTTP caching server
 
 ## Features
@@ -17,7 +16,6 @@ An HTTP caching server
 ## Usage
 
 ### Standalone
-**Commands**
 ```sh
   $ gat -h
 
@@ -25,56 +23,43 @@ An HTTP caching server
 
     Commands:
 
-      config                 Show config
-      start                  Start gat
-      stop                   Stop gat
-      restart                Restart gat
-      empty                  Empty cache
-      *                      Unknown command
+      config                 show config
+      start                  start gat
+      stop                   stop gat
+      restart                restart gat
+      empty                  empty cache
+      *                      unknown command
 
     Options:
 
       -h, --help     output usage information
       -V, --version  output the version number
+      -e, --edit     edit config
 
   $ gat start
-    info: starting gat on port 1947
+  info: starting gat on port 1947
 
-  $ gat stop
-    warn: stopping gat
+  $ gat config      # show config
 
-  $ gat restart
-    warn: stopping gat
-    info: starting gat on port 1947
+  $ gat -e config   # edit config
 
-  $ gat config
-    info: {
-      "root": "/Users/vrana/.gat",
-      "port": 1947,
-      "pidFile": "/Users/vrana/.gat/gat.pid",
-      "logFile": "/Users/vrana/.gat/gat.log",
-      "cacheDir": "/Users/vrana/.gat/cache"
-    }
-
-  $ gat empty
-    warn: emptying cache
 ```
 **Request**
 ```sh
-  wget -O node.png "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
+  curl -O "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
 ```
 **Response**
 ```sh
   HTTP/1.1 200 OK
-  server: Gat/0.0.7
-  date: Tue, 05 Mar 2013 20:49:56 GMT
+  server: Gat/0.0.9
+  date: Sun, 10 Mar 2013 17:31:27 GMT
   content-type: image/png
   content-length: 817701
   connection: keep-alive
   x-robots-tag: noindex,nofollow
   accept-ranges: bytes
-  x-server-response-time: 577
-  x-dropbox-request-id: 9714a7f21dd6be8b
+  x-server-response-time: 523
+  x-dropbox-request-id: 7914ee643fdfb67b
   pragma: public
   cache-control: max-age=0
 ```

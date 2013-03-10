@@ -8,7 +8,8 @@
     "commander": "1.1.x",
     "fs-extra": "0.5.x",
     "lodash": "1.x",
-    "winston": "0.6.x"
+    "winston": "0.6.x",
+    "editor": "0.x"
   },
   "devDependencies": {
     "mocha": "1.x"
