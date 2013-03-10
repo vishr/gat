@@ -50,66 +50,51 @@
 
 <h3>Standalone</h3>
 
-<p><strong>Commands</strong></p>
-
 <div class="highlight"><pre>  <span class="nv">$ </span>gat -h
 
     Usage: gat <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span><span class="nb">command</span><span class="o">]</span>
 
     Commands:
 
-      config                 Show config
-      start                  Start gat
-      stop                   Stop gat
-      restart                Restart gat
-      empty                  Empty cache
-      *                      Unknown <span class="nb">command</span>
+      config                 show config
+      start                  start gat
+      stop                   stop gat
+      restart                restart gat
+      empty                  empty cache
+      *                      unknown <span class="nb">command</span>
 
 <span class="nb">    </span>Options:
 
       -h, --help     output usage information
       -V, --version  output the version number
+      -e, --edit     edit config
 
   <span class="nv">$ </span>gat start
-    info: starting gat on port 1947
+  info: starting gat on port 1947
 
-  <span class="nv">$ </span>gat stop
-    warn: stopping gat
+  <span class="nv">$ </span>gat config      <span class="c"># show config</span>
 
-  <span class="nv">$ </span>gat restart
-    warn: stopping gat
-    info: starting gat on port 1947
+  <span class="nv">$ </span>gat -e config   <span class="c"># edit config</span>
 
-  <span class="nv">$ </span>gat config
-    info: <span class="o">{</span>
-      <span class="s2">"root"</span>: <span class="s2">"/Users/vrana/.gat"</span>,
-      <span class="s2">"port"</span>: 1947,
-      <span class="s2">"pidFile"</span>: <span class="s2">"/Users/vrana/.gat/gat.pid"</span>,
-      <span class="s2">"logFile"</span>: <span class="s2">"/Users/vrana/.gat/gat.log"</span>,
-      <span class="s2">"cacheDir"</span>: <span class="s2">"/Users/vrana/.gat/cache"</span>
-    <span class="o">}</span>
-
-  <span class="nv">$ </span>gat empty
-    warn: emptying cache
 </pre></div>
 
 <p><strong>Request</strong></p>
 
-<div class="highlight"><pre>  wget -O node.png <span class="s2">"http://localhost:1947/?protocol=https&amp;hostname=dl.dropbox.com&amp;resource=/u/11522638/node.png"</span>
+<div class="highlight"><pre>  curl -O <span class="s2">"http://localhost:1947/?protocol=https&amp;hostname=dl.dropbox.com&amp;resource=/u/11522638/node.png"</span>
 </pre></div>
 
 <p><strong>Response</strong></p>
 
 <div class="highlight"><pre>  HTTP/1.1 200 OK
-  server: Gat/0.0.7
-  date: Tue, 05 Mar 2013 20:49:56 GMT
+  server: Gat/0.0.9
+  date: Sun, 10 Mar 2013 17:31:27 GMT
   content-type: image/png
   content-length: 817701
   connection: keep-alive
   x-robots-tag: noindex,nofollow
   accept-ranges: bytes
-  x-server-response-time: 577
-  x-dropbox-request-id: 9714a7f21dd6be8b
+  x-server-response-time: 523
+  x-dropbox-request-id: 7914ee643fdfb67b
   pragma: public
   cache-control: max-age<span class="o">=</span>0
 </pre></div>
