@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-var program = require("commander");
 var os = require("os");
 var path = require("path");
 var fs = require("fs-extra");
 var spawn = require("child_process").spawn;
 var net = require("net");
+var program = require("commander");
 var winston = require("winston");
 var editor = require("editor");
 var cfg = require("../gat").config;
@@ -67,11 +67,9 @@ if (!program.args.length) {
 
 function start() {
   logger.info("starting gat on port " + cfg.port.toString().grey);
-  var client = net.connect({
-    port: cfg.port
-  });
 
   // Check if already running
+  var client = net.connect(cfg.ports);
   client.on("connect", function() {
     logger.error("failed starting gat - " + "port already in use".yellow);
     client.end();
@@ -81,9 +79,8 @@ function start() {
     // Start gat
     var child = spawn(process.execPath, [path.join(__dirname, "..", "server")], {
       detached: true,
-      stdio: ["ignore", "ignore", "ignore"]
+      stdio: "ignore"
     });
-
     try {
       fs.writeFileSync(cfg.pidFile, child.pid + eol);
       child.unref();
