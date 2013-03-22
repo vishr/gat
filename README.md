@@ -10,82 +10,81 @@ An HTTP caching server
 
 ## Installation
 ```sh
-  $ npm i gat -g
+$ npm i gat -g
 ```
 
 ## Usage
 
 ### Standalone
 ```sh
-  $ gat -h
+$ gat -h
 
-    Usage: gat [options] [command]
+  Usage: gat [options] [command]
 
-    Commands:
+  Commands:
 
-      config                 show config
-      start                  start gat
-      stop                   stop gat
-      restart                restart gat
-      empty                  empty cache
-      *                      unknown command
+    config                 show config
+    start                  start gat
+    stop                   stop gat
+    restart                restart gat
+    empty                  empty cache
+    *                      unknown command
 
-    Options:
+  Options:
 
-      -h, --help     output usage information
-      -V, --version  output the version number
-      -e, --edit     edit config
+    -h, --help     output usage information
+    -V, --version  output the version number
+    -e, --edit     edit config
 
-  $ gat start
-  info: starting gat on port 1947
+$ gat start
+info: starting gat on port 1947
 
-  $ gat config      # show config
+$ gat config      # show config
 
-  $ gat -e config   # edit config
-
+$ gat -e config   # edit config
 ```
 **Request**
 ```sh
-  curl -O "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
+curl -O "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
 ```
 **Response**
 ```sh
-  HTTP/1.1 200 OK
-  server: Gat/0.0.9
-  date: Sun, 10 Mar 2013 17:31:27 GMT
-  content-type: image/png
-  content-length: 817701
-  connection: keep-alive
-  x-robots-tag: noindex,nofollow
-  accept-ranges: bytes
-  x-server-response-time: 523
-  x-dropbox-request-id: 7914ee643fdfb67b
-  pragma: public
-  cache-control: max-age=0
+HTTP/1.1 200 OK
+server: Gat/0.0.9
+date: Sun, 10 Mar 2013 17:31:27 GMT
+content-type: image/png
+content-length: 817701
+connection: keep-alive
+x-robots-tag: noindex,nofollow
+accept-ranges: bytes
+x-server-response-time: 523
+x-dropbox-request-id: 7914ee643fdfb67b
+pragma: public
+cache-control: max-age=0
 ```
 
 ### As a node module
 ```js
-  var os = require("os");
-  var fs = require("fs");
-  var path = require("path");
-  var Gat = require("../gat").Gat;
+var os = require("os");
+var fs = require("fs");
+var path = require("path");
+var Gat = require("../gat").Gat;
 
-  var FILE = "walle.png";
-  var FILE_PATH = path.join(os.tmpDir(), FILE);
+var FILE = "walle.png";
+var FILE_PATH = path.join(os.tmpDir(), FILE);
 
-  Gat.setConfig({
-    port: 3737
+Gat.setConfig({
+  port: 3737
+});
+
+var gat = new Gat("https", "dl.dropbox.com");
+gat.get("/u/11522638/" + FILE, null, function(err, stream) {
+  if (err) {
+    return console.error(err);
+  }
+  stream.pipe(fs.createWriteStream(FILE_PATH));
+  stream.on("close", function() {
+    console.info("File saved: " + FILE_PATH);
   });
-
-  var gat = new Gat("https", "dl.dropbox.com");
-  gat.get("/u/11522638/" + FILE, null, function(err, stream) {
-    if (err) {
-      return console.error(err);
-    }
-    stream.pipe(fs.createWriteStream(FILE_PATH));
-    stream.on("close", function() {
-      console.info("File saved: " + FILE_PATH);
-    });
-  });
+});
 ```
