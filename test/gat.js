@@ -4,11 +4,11 @@ var Gat = require("../gat").Gat;
 var cfg = require("../gat").config;
 
 var TMP_DIR = path.join(__dirname, "tmp");
-var FILE1 = "node.png";
-var FILE2 = "walle.png";
-var FILE3 = "walle2.png";
+var FILE1 = "walle_128.png";
+var FILE2 = "walle_256.png";
+var FILE3 = "404.png";
 
-var gat = new Gat("https", "dl.dropbox.com");
+var gat = new Gat("https", "dl.dropboxusercontent.com");
 
 describe("Gat", function() {
   before(function(done) {
@@ -17,7 +17,7 @@ describe("Gat", function() {
       // Empty cache
       fs.remove(cfg.cacheDir, function() {
         // Cache FILE2
-        gat.get("/u/11522638/" + FILE2, null, function(err, stream) {
+        gat.get("/s/u09l2rafkasebv4/" + FILE2, null, function(err, stream) {
           if (err) {
             return done(err);
           }
@@ -31,7 +31,7 @@ describe("Gat", function() {
 
   describe("#get()", function() {
     it("should get the resouce from remote host", function(done) {
-      gat.get("/u/11522638/" + FILE1, null, function(err, stream) {
+      gat.get("/s/j4ev9qfa3wz34xl/" + FILE1, null, function(err, stream) {
         if (err) {
           return done(err);
         }
@@ -45,7 +45,7 @@ describe("Gat", function() {
     });
 
     it("should get the resouce from local cache", function(done) {
-      gat.get("/u/11522638/" + FILE2, null, function(err, stream) {
+      gat.get("/s/u09l2rafkasebv4/" + FILE2, null, function(err, stream) {
         if (err) {
           return done(err);
         }
@@ -59,7 +59,7 @@ describe("Gat", function() {
     });
 
     it("should delete the resouce from cache for 404 from remote host", function(done) {
-      gat.get("/u/11522638/" + FILE3, null, function(err, stream) {
+      gat.get("/" + FILE3, null, function(err, stream) {
         if (err) {
           return done(err);
         }

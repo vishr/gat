@@ -3,7 +3,7 @@ var fs = require("fs");
 var path = require("path");
 var Gat = require("../gat").Gat;
 
-var FILE = "walle.png";
+var FILE = "walle_128.png";
 var FILE_PATH = path.join(os.tmpDir(), FILE);
 
 Gat.setConfig({
@@ -11,7 +11,7 @@ Gat.setConfig({
 });
 
 var gat = new Gat("https", "dl.dropbox.com");
-gat.get("/u/11522638/" + FILE, null, function(err, stream) {
+gat.get("/s/j4ev9qfa3wz34xl/" + FILE, null, function(err, stream) {
   if (err) {
     return console.error(err);
   }

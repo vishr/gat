@@ -111,9 +111,9 @@ Gat.prototype.get = function(resource, headers, cb) {
           target.gat = gat;
           cb(null, target);
         } else if (res.statusCode === 404) {
-          // Delete the resource
+        	// Delete the resource
           fs.remove(gat.file, function(err) {
-            if (err) {
+          	if (err) {
               return cb(err);
             }
             cb(null, null);

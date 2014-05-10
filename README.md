@@ -45,7 +45,7 @@ $ gat -e config   # edit config
 ```
 **Request**
 ```sh
-curl -O "http://localhost:1947/?protocol=https&hostname=dl.dropbox.com&resource=/u/11522638/node.png"
+curl -O "http://localhost:1947/?protocol=https&hostname=dl.dropboxusercontent.com&resource=/s/j4ev9qfa3wz34xl/walle_128.png"
 ```
 **Response**
 ```sh
